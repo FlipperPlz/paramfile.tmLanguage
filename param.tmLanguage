@@ -1,0 +1,251 @@
+{
+  "name": "Param",
+  "fileTypes": [".cpp", "config.cpp", ".rvmat"],
+  "scopeName": "text.cpp.paramfile",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.other.param",
+      "match": "\\b(enum|class|delete)\\b"
+    },
+    {
+      "name": "keyword.operator.param",
+      "match": "\\+?=|-?=|="
+    },
+    {
+      "name": "punctuation.definition.array.param",
+      "match": "\\[\\s*\\]"
+    },
+    {
+      "name": "punctuation.definition.object.param",
+      "begin": "\\{",
+      "end": "\\}",
+      "patterns": [
+        {
+          "include": "#comments"
+        },
+        {
+          "include": "#statements"
+        }
+      ]
+    },
+    {
+      "name": "punctuation.terminator.statement.param",
+      "match": ";"
+    },
+    {
+      "name": "meta.class.param",
+      "begin": "\\bclass\\b\\s+\\w+\\b",
+      "end": ";",
+      "patterns": [
+        {
+          "name": "entity.name.type.class.param",
+          "match": "\\b\\w+\\b"
+        },
+        {
+          "include": "#comments"
+        },
+        {
+          "include": "#statements"
+        }
+      ]
+    },
+    {
+      "name": "meta.enum.param",
+      "begin": "\\benum\\b\\s*\\{",
+      "end": "\\}",
+      "patterns": [
+        {
+          "name": "constant.other.enum.param",
+          "match": "\\b\\w+\\b"
+        },
+        {
+          "include": "#comments"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.param",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.empty.param",
+          "match": "/\\*(\\*)?/"
+        },
+        {
+          "name": "comment.block.param",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "captures": {
+            "0": {
+              "name": "punctuation.definition.comment.param"
+            }
+          }
+        }
+      ]
+    },
+    "statements": {
+      "patterns": [
+        {
+          "include": "#parameterStatement"
+        },
+        {
+          "include": "#deleteStatement"
+        },
+        {
+          "include": "#arrayOperation"
+        },
+        {
+          "include": "#classDeclaration"
+        }
+      ]
+    },
+    "deleteStatement": {
+      "name": "keyword.other.delete.param",
+      "match": "\\bdelete\\b\\s+\\w+\\b"
+    },
+    "arrayOperation": {
+      "begin": "\\b\\w+\\b\\s*\\[\\s*\\]",
+      "end": ";",
+      "patterns": [
+        {
+          "name": "meta.bracket.square.param",
+          "begin": "\\[",
+          "end": "\\]",
+          "patterns": [
+            {
+              "name": "keyword.operator.assignment.param",
+              "match": "\\+?=|-?="
+            },
+            {
+              "include": "#literalArray"
+            }
+          ]
+        }
+      ]
+    },
+    "enumDeclaration": {
+      "begin": "\\benum\\b",
+      "end": ";",
+      "patterns": [
+        {
+          "name": "meta.bracket.curly.param",
+          "begin": "{",
+          "end": "}",
+          "patterns": [
+            {
+              "include": "#enumValue"
+            },
+            {
+              "match": ",|;",
+              "name": "punctuation.separator.enum.param"
+            },
+            {
+              "include": "#whitespace"
+            }
+          ]
+        }
+      ]
+    },
+    "enumValue": {
+      "begin": "\\b\\w+\\b",
+      "end": "(,|;)",
+      "patterns": [
+        {
+          "match": "=",
+          "name": "keyword.operator.assignment.param"
+        },
+        {
+          "match": "\\b\\d+\\b",
+          "name": "constant.numeric.integer.param"
+        },
+        {
+          "include": "#identifier"
+        }
+      ]
+    },
+    "whitespace": {
+      "match": "\\s+",
+      "name": "source.whitespace.param"
+    },
+    "identifier": {
+      "match": "\\b[a-zA-Z_]\\w*\\b",
+      "name": "variable.other.param"
+    },
+    "literalString": {
+      "match": "\"(\\\\\"|[^\"])*\"",
+      "name": "string.quoted.double.param"
+    },
+    "literalInteger": {
+      "match": "\\b-?[0-9]+\\b",
+      "name": "constant.numeric.integer.param"
+    },
+    "literalArray": {
+      "begin": "\\[",
+      "end": "\\]",
+      "patterns": [
+        {
+          "include": "#literal"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.array.param"
+        },
+        {
+          "include": "#whitespace"
+        }
+      ]
+    },
+    "parameterStatement": {
+      "name": "meta.function.parameters.param",
+      "begin": "\\(",
+      "end": "\\)",
+      "patterns": [
+        {
+          "include": "#literalArray"
+        },
+        {
+          "include": "#literalString"
+        },
+        {
+          "include": "#literalInteger"
+        },
+        {
+          "include": "#identifier"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.function.parameter.param"
+        },
+        {
+          "include": "#whitespace"
+        }
+      ]
+    },
+    "literal": {
+      "patterns": [
+        {
+          "include": "#literalString"
+        },
+        {
+          "include": "#literalInteger"
+        },
+        {
+          "include": "#literalArray"
+        },
+        {
+          "include": "#identifier"
+        },
+        {
+          "include": "#whitespace"
+        }
+      ]
+    }
+  }
+}
